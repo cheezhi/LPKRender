@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LPKRender示例</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      padding: 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image: url('https://xyyfile.rrxweb.top/lxh/background.webp');
+      background-repeat: repeat;
+      background-size: 260px auto;
+      opacity: 0.10;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 800px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #666;
+    }
+
+    .code-block {
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+      overflow-x: auto;
+      border: 1px solid #e0e0e0;
+    }
+
+    .code-block code {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .code-block .comment {
+      color: #999;
+    }
+
+    .code-block .keyword {
+      color: #0066cc;
+    }
+
+    .code-block .string {
+      color: #009900;
+    }
+
+    .code-block .number {
+      color: #ff6600;
+    }
+
+
+    .loading {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      z-index: 100000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>LPKRender</h1>
+    <p style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+      <a href="https://github.com/cheezhi/LPKRender" target="_blank" style="color: #0066cc;">⭐ GitHub: cheezhi/LPKRender</a>
+    </p>
+    <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+      示例 Live2D 模型来自 <a href="https://space.bilibili.com/11407406" target="_blank" style="color: #0066cc;">@躺师傅轻食小炒</a> 的
+      <a href="https://www.bilibili.com/video/BV1294y1G7Ba/" target="_blank" style="color: #0066cc;">黑崽生日快乐！｜live2d桌宠</a>
+    </p>
+    <p style="font-size: 0.75rem; color: #999; margin-bottom: 20px;">
+      版权为罗小黑官方与模型作者所有，如有侵权请联系删除
+    </p>    
+    <div class="code-block">
+      <code>
+<span class="comment">&lt;!-- 引入看板猫 JS --&gt;</span><br>
+<span class="keyword">&lt;script</span> <span class="keyword">src</span>=<span class="string">"https://cdn.jsdelivr.net/gh/cheezhi/LPKRender/lpkr.min.js"</span><span class="keyword">&gt;&lt;/script&gt;</span><br><br>
+<span class="comment">&lt;!-- 初始化看板猫 --&gt;</span><br>
+<span class="keyword">&lt;script&gt;</span><br>
+&nbsp;&nbsp;Live2DWidget.init({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 必需参数</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;lpkFile: <span class="string">'/model.lpk'</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// LPK 模型文件路径</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 基础设置</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;width: <span class="number">300</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 画布宽度</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;height: <span class="number">400</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 画布高度</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;position: <span class="string">'right'</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 位置：left 或 right</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;bottom: <span class="number">0</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 距离底部距离</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;scale: <span class="number">0.15</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 模型缩放</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;modelX: <span class="number">0.7</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 靠左（0为最左，1为最右）</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;modelY: <span class="number">0.4</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 偏下（0为最上，1为最下）</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;modelYOffset: <span class="number">30</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 额外向下偏移30像素</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端专属配置（可选）</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mobileWidth: <span class="number">150</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端更小尺寸</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mobileHeight: <span class="number">150</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端画布高度</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mobileScale: <span class="number">0.15</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端更小缩放</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mobilePosition: <span class="string">'right'</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端显示在右侧</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mobileBottom: <span class="number">20</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端距离底部 20px</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mobileModelX: <span class="number">0.6</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端模型水平位置</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mobileModelY: <span class="number">0.3</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端模型垂直位置</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mobileModelYOffset: <span class="number">0</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 移动端模型垂直偏移</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 交互控制</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;draggable: <span class="keyword">true</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 是否可拖拽</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;clickable: <span class="keyword">true</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 是否可点击</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;tapMotion: <span class="keyword">true</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 点击时播放动作</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;randomMotion: <span class="keyword">false</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 随机播放动作</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 音效控制</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;soundEnabled: <span class="keyword">false</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 播放音效（默认关闭）</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 动作控制</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;idleMotion: <span class="keyword">null</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 初始循环动作</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;excludeMotions: [<span class="string">'Idle'</span>],&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 排除的动作组</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;hitAreaMapping: {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 点击区域映射</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'头'</span>: <span class="string">'打招呼'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'左手'</span>: <span class="string">'书'</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;},<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 自定义 CDN（可选）</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;libUrls: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// cubismCore: 'https://your-cdn.com/cubismcore.min.js',</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// pixi: 'https://your-cdn.com/pixi.min.js',</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;});<br>
+<span class="keyword">&lt;/script&gt;</span>
+      </code>
+    </div>
+
+
+  <div id="loading-status" class="loading">正在加载看板猫...</div>
+
+  <!-- 引入看板猫 JS -->
+  <script src="lpkrender.min.js"></script>
+  <script>
+    // 初始化看板猫
+    Live2DWidget.init({
+      lpkFile: 'https://cdn-community.bcmcdn.com/47/community/d2ViXzMwMDFfMzUyMzQwMl8wXzE3NzE1ODQyNzMwMDFfMTUwNmY5NWM.jpeg',
+      configFile: '/public/config.json',
+      width: 250,
+      height: 250,
+      position: 'right',
+      bottom: 0,
+      scale: 0.15,
+      modelX: 0.7,        // 靠左（0为最左，1为最右）
+      modelY: 0.4,        // 偏下（0为最上，1为最下）
+      modelYOffset: 30,    // 额外向下偏移30像素
+      // 移动端专属配置（可选）
+      mobileWidth: 150,       // 移动端更小尺寸
+      mobileHeight: 150,
+      mobileScale: 0.15,      // 移动端更小缩放
+      mobilePosition: 'right', // 移动端显示在左侧
+      mobileBottom: 20,        // 移动端距离底部 20px
+      mobileModelX: 0.6,
+      mobileModelY: 0.3,
+      mobileScale: 0.1,  // 如需响应式，取消注释并设置移动端缩放比例
+      draggable: true,
+      clickable: true,
+      // 可选：是否点击时播放动作（默认 true）
+      tapMotion: true,
+      // 可选：是否播放动作音效（默认 false）
+      soundEnabled: true,
+      // 可选：是否忽略 hit 区域映射，随机播放动作（默认 false）
+      randomMotion: false,
+      // 可选：要排除的动作组名称列表（默认空数组，不删除任何动作）
+      excludeMotions: ["Idle"],
+      // 可选：初始循环播放的动作组名称（默认 null，不循环播放）
+      idleMotion: "书",
+      // 可选：自定义第三方 JS 库 URL
+      libUrls: {
+        // cubismCore: 'https://your-cdn.com/cubismcore.min.js',
+        // live2d: 'https://your-cdn.com/live2d.min.js',
+        // pixi: 'https://your-cdn.com/pixi.min.js',
+        // pixiLive2d: 'https://your-cdn.com/pixi-live2d-display.min.js',
+        // jszip: 'https://your-cdn.com/jszip.min.js'
+      },
+      // 可选：自定义点击动作映射
+      // 如果不设置，默认使用模型 hit 区域名映射到同名动作组
+      hitAreaMapping: {
+        '左手': '书',
+        '右手': '右耳',
+        '左耳': '左耳',
+        '右耳': '右耳',
+        '头': '生日帽',
+        '身体': '跟宠'
+      }
+    }).then(widget => {
+      console.log('看板猫加载成功！');
+      document.getElementById('loading-status').style.display = 'none';
+    }).catch(err => {
+      console.error('看板猫加载失败:', err);
+      document.getElementById('loading-status').textContent = '加载失败: ' + err.message;
+    });
+  </script>
+</body>
+</html>
